@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Recruiter;
 
 class User extends Authenticatable
 {
@@ -44,5 +45,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function isCandidate(): bool
+    {
+        return $this->account_type === 'candidate';
+    }
+
+    public function isRecruiter(): bool
+    {
+        return $this->account_type === 'recruiter';
+    }
+
+    public function recruiter()
+    {
+        return $this->hasOne(Recruiter::class);
     }
 }

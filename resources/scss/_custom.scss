@@ -1,0 +1,31 @@
+$primary: #268770;
+$secondary: #FFAF2F;
+$success: #489F43;
+$danger: #dc3545;
+
+// Définir tes couleurs
+$custom-colors: (
+  "indigo": #05383D,
+  "aquamarine": #38767c,
+  "larch-bolete": #ffa977,
+  "orangish": #f98948,
+  "wondrous-blue": #cadae5,
+  "sand": #fafaf7,
+  "white": #ECECEC,
+  "black": #1E1E1E
+);
+
+// Si Bootstrap n’a pas encore défini $theme-colors, définir une map vide
+$theme-colors: () !default;
+
+// Fusionner tes couleurs dans la map Bootstrap
+$theme-colors: map-merge(
+  $theme-colors,
+  $custom-colors
+);
+
+$body-bg: #FFFFFF;
+$body-bg-secondary: #FAEADA;
+$font-family-base: 'Segoe UI', sans-serif;
+
+@import "bootstrap/scss/bootstrap";

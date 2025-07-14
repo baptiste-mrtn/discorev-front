@@ -58,6 +58,19 @@ Route::middleware(['auth'])->group(function () {
 // Accès public
 Route::get('/job_offers', [JobOfferController::class, 'index'])->name('job_offers.index');
 
+// Accès aux fiches entreprises
+Route::get('/entreprises/azae', function () {
+    return view('companies.azae');
+})->name('companies.azae');
+
+Route::get('/entreprises/le-petit-jean', function () {
+    return view('companies.le-petit-jean');
+})->name('companies.le-petit-jean');
+
+Route::get('/entreprises/altidom', function () {
+    return view('companies.altidom');
+})->name('companies.altidom');
+
 // Pour recruteurs
 Route::middleware(['auth', 'recruiter'])->group(function () {
     Route::get('/recruiter/my-job_offers', [JobOfferController::class, 'myOffers'])->name('recruiter.jobs.index');

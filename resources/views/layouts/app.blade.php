@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Discorev')</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    @vite(['resources/js/app.js', 'resources/scss/app.scss'])
 </head>
 
 <body>
@@ -11,7 +14,7 @@
     @include('partials.navbar')
 
     {{-- Zone principale --}}
-    <main class="container mt-6">
+    <main class="mt-6">
         {{-- Toast messages --}}
         <div aria-live="polite" aria-atomic="true" class="position-relative">
             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1100;">
@@ -20,6 +23,8 @@
         </div>
         {{-- Contenu principal --}}
         @yield('content')
+
+        @include('partials.footer')
     </main>
 
     {{-- Scripts --}}
@@ -33,8 +38,7 @@
             });
         });
     </script>
-    @vite(['resources/js/app.js', 'resources/css/app.css'])
-
+    @vite(['resources/js/app.js', 'resources/scss/app.scss'])
 </body>
 
 </html>

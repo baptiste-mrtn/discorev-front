@@ -1,0 +1,498 @@
+:root{
+    --indigo: #05383D;
+    --aquamarine: #38767c;
+    --orangish: #f98948;
+    --larch-bolete: #ffa977;
+    --wondrous-blue: #cadae5;
+    --sand: #fafaf7;
+    --white: #ECECEC;
+    --black: #1E1E1E;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    font-family: Poppins, sans-serif;
+}
+
+html{
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+body{
+    background-color: var(--sand);
+}
+
+section {
+    margin-bottom: 80px; /* Augmente l'espace entre les sections */
+    padding-bottom: 40px; /* Ajoute un espace intérieur */
+    border-bottom: 1px solid #ddd; /* Ligne subtile pour une meilleure séparation */
+}
+
+h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    margin-top: 2rem;
+}
+
+/* ===== BANNIÈRE ENTREPRISE ===== */
+.company-banner {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+    box-shadow: 0 8px 16px rgba(33, 35, 35, 0.3);
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+.company-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.company-banner .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* ===== LOGO & INFOS ===== */
+.company-header {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 100px;
+}
+
+.company-logo {
+    width: 250px;
+    height: 150px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.company-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background-color: white;
+}
+
+.company-info {
+    margin-left: 20px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.company-info h1 {
+    font-size: 1.8rem;
+}
+
+.company-info p {
+    margin: 0;
+}
+
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 70px 20px;
+    max-width: 1900px;
+    margin: auto;
+}
+
+.main-content {
+    width: 70%;
+}
+
+.sidebar-container {
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+}
+
+.sidebar-infos {
+    background: var(--white);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem; /* Sépare les deux sections */
+}
+
+.sidebar-infos ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar-infos li {
+    margin: 10px 0;
+}
+
+.contact-btn {
+    display: block;
+    text-align: center;
+    background: var(--orangish);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.sidebar-offers {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar-offers h3 {
+    margin: 10px 0;
+}
+
+.job-list {
+    list-style: none;
+    padding: 0;
+}
+
+.job-list li {
+    background: var(--sand);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.job-list h4 {
+    margin: 10px 0;
+    font-size: 1.1rem;
+    color: var(--black);
+}
+
+.job-list p {
+    font-size: 0.9rem;
+    color: var(--black);
+    margin: 5px 0;
+}
+
+.sidebar-title {
+    font-size: 1.2rem;
+    color: var(--indigo);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.infos-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--black);
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.job-card {
+    background: var(--sand);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease;
+}
+
+.job-card:hover {
+    transform: translateY(-3px);
+}
+
+.job-card h4 {
+    font-size: 1rem;
+    color: var(--black);
+    margin-bottom: 0.5rem;
+}
+
+.job-card p {
+    font-size: 0.85rem;
+    color: var(--black);
+    margin: 4px 0;
+}
+
+.image-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.image-grid img {
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Navigation */
+.company-nav ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.company-nav li {
+    list-style: none;
+}
+
+.company-nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* ===== NAVIGATION ===== */
+.company-nav {
+    padding: 15px 0;
+    text-align: left;
+}
+
+.company-nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: left;
+    gap: 1rem;
+}
+
+.company-nav ul li {
+    display: inline;
+}
+
+.company-nav ul li a {
+    text-decoration: none;
+    font-weight: 600;
+    color: #333;
+    margin: 0 8px;
+}
+
+.two-columns {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.column {
+    width: 50%;
+    background: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.column ul {
+    padding-left: 0;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.key-elements ul {
+    padding-left: 0;
+    margin-top: 10px;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+/* Grille équipe */
+.team-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.team-member {
+    width: 30%;
+    text-align: center;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.team-member img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.team-member h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+    color: #333;
+}
+
+.team-member p {
+    font-size: 14px;
+    color: #666;
+}
+
+.photo-collage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.collage-item {
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.collage-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Image plus grande pour un effet varié */
+.collage-item.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.job-count {
+    background: var(--orangish);
+    color: white;
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    border-radius: 10px;
+}
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+}
+
+.hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--orangish);
+    transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover::after {
+    transform: scaleX(1);
+}
+
+.hover-underline-animation.left::after {
+    transform-origin: bottom right;
+}
+
+.hover-underline-animation.left:hover::after {
+    transform-origin: bottom left;
+}
+
+.column li{
+    list-style: none;
+}
+
+.team-video {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.team-video video {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.benefits-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.benefit-card {
+    flex: 1;
+    background: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+}
+
+.benefit-card h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.benefit-card p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Style des boutons Postuler */
+.apply-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: var(--orangish);
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+.apply-btn:hover {
+    background: #e65c00;
+}
+
+

@@ -154,7 +154,6 @@
             </div>
             <div class="modal-body">
                 <p>Voici la politique de confidentialité...</p>
-                <!-- Tu peux coller ici le vrai contenu -->
             </div>
         </div>
     </div>

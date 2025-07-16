@@ -43,5 +43,17 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
 
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      
+      - name: Install NPM dependencies
+        run: npm ci
+      
+      - name: Build frontend with Vite
+        run: npm run build
+
       - name: Execute tests
         run: php artisan test
+

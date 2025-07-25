@@ -30,8 +30,13 @@
                 <!-- Dropdowns à droite -->
                 <ul class="navbar-nav align-items-center gap-lg-3">
 
-                    @auth
-                        @if (Auth::user()->isCandidate())
+                    @if ($isAuthenticated && isset($user))
+                        @php
+                            $isCandidate = $user['account_type'] === 'candidate';
+                            $isRecruiter = $user['account_type'] === 'recruiter';
+                        @endphp
+
+                        @if ($isCandidate)
                             <!-- Dropdown Candidat -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white fw-medium" href="#" role="button"
@@ -45,7 +50,7 @@
                             </li>
                         @endif
 
-                        @if (Auth::user()->isRecruiter())
+                        @if ($isRecruiter)
                             <!-- Dropdown Recruteur -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white fw-medium" href="#" role="button"
@@ -54,12 +59,10 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="{{ route('recruiter.jobs.create') }}">Publier une
-                                            offre</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="{{ route('recruiter.jobs.index') }}">Mes offres</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="{{ route('cvtheque.index') }}">Cvthèque</a>
-                                    </li>
+                                            offre</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('recruiter.jobs.index') }}">Mes
+                                            offres</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('cvtheque.index') }}">Cvthèque</a></li>
                                 </ul>
                             </li>
                         @endif
@@ -67,22 +70,23 @@
                         <!-- Icône profil connecté -->
                         <li class="nav-item dropdown">
                             <a href="#" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ Auth::user()->profile_picture ?? asset('img/default-avatar.png') }}"
+                                <img src="{{ $user['profile_picture'] ?? asset('img/default-avatar.png') }}"
                                     alt="Profil" class="rounded-circle me-2 shadow" width="32" height="32">
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item" href="{{ route('profile') }}"><span
-                                            class="material-symbols-outlined me-2">person</span> Profil</a></li>
-                                <li><a class="dropdown-item" href="{{ route('settings') }}"><span
-                                            class="material-symbols-outlined me-2">settings</span> Paramètres</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile') }}">
+                                        <span class="material-symbols-outlined me-2">person</span> Profil</a></li>
+                                <li><a class="dropdown-item" href="{{ route('settings') }}">
+                                        <span class="material-symbols-outlined me-2">settings</span> Paramètres</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="dropdown-item"><span
-                                                class="material-symbols-outlined me-2">logout</span> Déconnexion</button>
+                                        <button type="submit" class="dropdown-item">
+                                            <span class="material-symbols-outlined me-2">logout</span> Déconnexion
+                                        </button>
                                     </form>
                                 </li>
                             </ul>
@@ -90,19 +94,19 @@
                     @else
                         <!-- Icône profil invité -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white" href="#" id="guestDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="guestDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="material-symbols-outlined fs-4">account_circle</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="guestDropdown">
-                                <li><a class="dropdown-item" href="{{ route('auth', ['tab' => 'login']) }}"><span
-                                            class="material-symbols-outlined me-2">login</span> Connexion</a></li>
-                                <li><a class="dropdown-item" href="{{ route('auth', ['tab' => 'register']) }}"><span
-                                            class="material-symbols-outlined me-2">person_add</span> Créer un compte</a>
-                                </li>
+                                <li><a class="dropdown-item" href="{{ route('auth', ['tab' => 'login']) }}">
+                                        <span class="material-symbols-outlined me-2">login</span> Connexion</a></li>
+                                <li><a class="dropdown-item" href="{{ route('auth', ['tab' => 'register']) }}">
+                                        <span class="material-symbols-outlined me-2">person_add</span> Créer un
+                                        compte</a></li>
                             </ul>
                         </li>
-                    @endauth
+                    @endif
                 </ul>
             </div>
         </div>

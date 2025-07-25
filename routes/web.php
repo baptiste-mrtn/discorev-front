@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
 
 // Routes with auth needed
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'web'])->group(function () {
 
     //Profile
     Route::get('/complete-profile', [ProfileController::class, 'showCompletionForm'])->name('complete-profile');
@@ -72,13 +72,13 @@ Route::get('/entreprises/altidom', function () {
 })->name('companies.altidom');
 
 // Pour recruteurs
-Route::middleware(['auth', 'recruiter'])->group(function () {
+Route::middleware(['auth', 'web', 'recruiter'])->group(function () {
     Route::get('/recruiter/my-job_offers', [JobOfferController::class, 'myOffers'])->name('recruiter.jobs.index');
     Route::get('/job_offers/create', [JobOfferController::class, 'create'])->name('recruiter.jobs.create');
     Route::post('/job_offers', [JobOfferController::class, 'store'])->name('recruiter.jobs.store');
-    Route::get('/job_offers/{id}/edit', [JobOfferController::class, 'edit'])->name('job_offers.edit');
-    Route::put('/job_offers/{id}', [JobOfferController::class, 'update'])->name('job_offers.update');
-    Route::delete('/job_offers/{id}', [JobOfferController::class, 'destroy'])->name('job_offers.destroy');
+    Route::get('/job_offers/{id}/edit', [JobOfferController::class, 'edit'])->name('recruiter.jobs.edit');
+    Route::put('/job_offers/{id}', [JobOfferController::class, 'update'])->name('recruiter.jobs.update');
+    Route::delete('/job_offers/{id}', [JobOfferController::class, 'destroy'])->name('recruiter.jobs.destroy');
     Route::get('/cvtheque', [CandidateController::class, 'index'])->name('cvtheque.index');
 });
 

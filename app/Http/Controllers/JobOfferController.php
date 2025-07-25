@@ -24,13 +24,14 @@ class JobOfferController extends Controller
         abort(500, 'Erreur lors de la récupération des offres.');
     }
 
-    public function show(DiscorevApiService $api)
+    public function show(DiscorevApiService $api, $id)
     {
-        $response = $api->get('job_offers');
+        $response = $api->get('job_offers/' . $id);
 
         if ($response->successful()) {
-            $offers = $response->json()['data'];
-            return view('job_offers.index', compact('offers'));
+            $offer = $response->json()['data']['jobOffer'];
+            $recruiter = $response->json()['data']['recruiter'];
+            return view('job_offers.show', compact('offer', 'recruiter'));
         }
 
         abort(500, 'Erreur lors de la récupération des offres.');
@@ -46,13 +47,10 @@ class JobOfferController extends Controller
             Redirect::back()->withErrors(['error' => 'L\'utilisateur n\'est pas un recruteur']);
         }
 
-        $response = $api->get('job_offers/filters', [
-            'recruiterId' => $recruiterId
-        ]);
-
+        $response = $api->get('job_offers/recruiter/' . $recruiterId);
         if ($response->successful()) {
             $offers = $response->json()['data'];
-            return view('job_offers.index', compact('offers'));
+            return view('account.recruiter.jobs.index', compact('offers'));
         }
 
         abort(500, 'Erreur lors de la récupération des offres.');
@@ -90,45 +88,65 @@ class JobOfferController extends Controller
         $response = $api->post('job_offers', $data);
 
         if ($response->successful()) {
-            return redirect()->route('recruiter.job_offers.index')->with('success', 'Offre créée avec succès.');
+            return redirect()->route('recruiter.jobs.index')->with('success', 'Offre créée avec succès.');
         }
 
         return Redirect::back()->withErrors(['error' => 'Erreur lors de la création de l\'offre.']);
     }
 
-    public function edit(DiscorevApiService $api)
+    public function edit(DiscorevApiService $api, $id)
     {
-        $response = $api->get('job_offers');
+        $response = $api->get('job_offers/' . $id);
 
         if ($response->successful()) {
-            $offers = $response->json()['data'];
-            return view('job_offers.index', compact('offers'));
+            $offer = $response->json()['data']['jobOffer'];
+            return view('account.recruiter.jobs.edit', compact('offer'));
         }
 
-        abort(500, 'Erreur lors de la récupération des offres.');
+        abort(500, 'Erreur lors de la récupération de l\'offre.');
     }
 
-    public function update(DiscorevApiService $api)
+    public function update(Request $request, DiscorevApiService $api, $id)
     {
-        $response = $api->get('job_offers');
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'location' => 'required|string|max:255',
+            'salary' => 'nullable|numeric',
+            'requirements' => 'nullable|string',
+            'salary_range' => 'nullable|string|max:255',
+            'employment_type' => 'required|string|in:cdi,cdd,freelance,alternance,stage',
+            'remote' => 'nullable|boolean',
+            'expiration_date' => 'nullable|date',
+            'status' => 'required|string|in:active,inactive,draft',
+        ]);
 
-        if ($response->successful()) {
-            $offers = $response->json()['data'];
-            return view('job_offers.index', compact('offers'));
+        $recruiter = auth()->user()->recruiter;
+        if (!$recruiter) {
+            return Redirect::back()->withErrors(['error' => 'L\'utilisateur n\'est pas un recruteur']);
         }
 
-        abort(500, 'Erreur lors de la récupération des offres.');
+        $data = array_merge($validated, [
+            'recruiter_id' => $recruiter->id,
+        ]);
+
+        $response = $api->put('job_offers/' . $id, $data);
+
+        if ($response->successful()) {
+            return redirect()->route('recruiter.jobs.index')->with('success', 'Offre modifiée avec succès.');
+        }
+
+        return Redirect::back()->withErrors(['error' => 'Erreur lors de la modification de l\'offre.']);
     }
 
-    public function destroy(DiscorevApiService $api)
+    public function destroy(DiscorevApiService $api, $id)
     {
-        $response = $api->get('job_offers');
+        $response = $api->delete('job_offers/' . $id);
 
         if ($response->successful()) {
-            $offers = $response->json()['data'];
-            return view('job_offers.index', compact('offers'));
+            return redirect()->route('recruiter.jobs.index')->with('success', 'Offre supprimée avec succès.');
         }
 
-        abort(500, 'Erreur lors de la récupération des offres.');
+        return Redirect::back()->withErrors(['error' => 'Erreur lors de la suppression de l\'offre.']);
     }
 }

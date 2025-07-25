@@ -14,25 +14,10 @@ class DiscorevApiService
     {
         $this->baseUrl = env('DISCOREV_API_URL', 'http://localhost:3000');
     }
-
-    public function login(array $credentials)
-    {
-        $response = Http::post("{$this->baseUrl}/auth/login", $credentials);
-
-        if ($response->successful()) {
-            $token = $response['accessToken'] ?? null;
-            if ($token) {
-                Session::put('jwt_token', $token);
-            }
-        }
-
-        return $response;
-    }
-
     public function get(string $endpoint, array $params = [])
     {
         return $this->withAutoRefresh(function () use ($endpoint, $params) {
-            return Http::withToken(Session::get('jwt_token'))
+            return Http::withToken(Session::get('access_token'))
                 ->get("{$this->baseUrl}/{$endpoint}", $params);
         });
     }
@@ -40,10 +25,27 @@ class DiscorevApiService
     public function post(string $endpoint, array $data)
     {
         return $this->withAutoRefresh(function () use ($endpoint, $data) {
-            return Http::withToken(Session::get('jwt_token'))
+            return Http::withToken(Session::get('access_token'))
                 ->post("{$this->baseUrl}/{$endpoint}", $data);
         });
     }
+
+    public function put(string $endpoint, array $data)
+    {
+        return $this->withAutoRefresh(function () use ($endpoint, $data) {
+            return Http::withToken(Session::get('access_token'))
+                ->put("{$this->baseUrl}/{$endpoint}", $data);
+        });
+    }
+
+    public function delete(string $endpoint)
+    {
+        return $this->withAutoRefresh(function () use ($endpoint) {
+            return Http::withToken(Session::get('access_token'))
+                ->delete("{$this->baseUrl}/{$endpoint}");
+        });
+    }
+
 
     /**
      * Rafraîche automatiquement le token si expiré.
@@ -71,13 +73,13 @@ class DiscorevApiService
         if ($refresh->successful()) {
             $newToken = $refresh['accessToken'] ?? null;
             if ($newToken) {
-                Session::put('jwt_token', $newToken);
+                Session::put('access_token', $newToken);
                 return true;
             }
         }
 
         // Le refresh a échoué : déconnexion ?
-        Session::forget('jwt_token');
+        Session::forget('access_token');
         return false;
     }
 }

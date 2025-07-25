@@ -14,7 +14,7 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return view('settings.index');
+        return view('account.settings.index');
     }
 
     public function update(Request $request)

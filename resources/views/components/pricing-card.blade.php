@@ -6,7 +6,7 @@
     'buttonUrl' => '#',
     'isHighlighted' => false,
     'isPremium' => false,
-    'period' => null
+    'period' => null,
 ])
 
 <style>
@@ -29,7 +29,7 @@
     .modern-card:hover {
         transform: translateY(-8px);
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
     .modern-card.highlighted {
@@ -122,14 +122,14 @@
 </style>
 
 <div class="position-relative h-100">
-    @if($isHighlighted)
+    @if ($isHighlighted)
         <div class="popular-badge">Populaire</div>
     @endif
 
-    <div class="modern-card p-4 d-flex flex-column
-                @if($isPremium) premium
-                @elseif($isHighlighted) highlighted
-                @endif">
+    <div
+        class="modern-card p-4 d-flex flex-column
+                @if ($isPremium) premium
+                @elseif($isHighlighted) highlighted @endif">
 
         <div class="text-center mb-4">
             <h3 class="fw-bold mb-3" style="color: var(--indigo); font-size: 1.5rem;">
@@ -138,7 +138,7 @@
 
             <div class="d-flex align-items-baseline justify-content-center mb-2">
                 <span class="price-gradient">{{ $price }}</span>
-                @if($period)
+                @if ($period)
                     <span class="ms-2" style="color: var(--black);">{{ $period }}</span>
                 @endif
             </div>
@@ -146,13 +146,13 @@
 
         <div class="flex-grow-1 mb-4">
             <ul class="list-unstyled">
-                @foreach($features as $feature)
+                @foreach ($features as $feature)
                     <li class="d-flex align-items-start mb-3">
                         <div class="feature-check">
                             <svg width="12" height="12" fill="white" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clip-rule="evenodd"></path>
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clip-rule="evenodd"></path>
                             </svg>
                         </div>
                         <span style="color: var(--black); opacity: 0.7;">{{ $feature }}</span>
@@ -162,7 +162,7 @@
         </div>
 
         <div class="mt-auto">
-            @if($isPremium)
+            @if ($isPremium)
                 <a href="{{ $buttonUrl }}" class="btn-modern btn-primary-gradient">
                     {{ $buttonText }}
                 </a>

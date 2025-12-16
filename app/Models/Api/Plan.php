@@ -4,22 +4,33 @@ namespace App\Models\Api;
 
 use App\Models\Api\BaseApiModel;
 
-class Tag extends BaseApiModel
+class Plan extends BaseApiModel
 {
     protected $fillable = [
-        'categoryId',
         'id',
         'name',
-        'slug',
-        'approved',
+        'priceMonth',
+        'priceYear',
+        'commitment',
+        'credits',
+        'adDurationHours',
+        'features',
+        'isActive',
         'createdAt',
         'updatedAt',
     ];
 
     protected $casts = [
+        'features' => 'array',
+        'isActive' => 'boolean',
         'createdAt' => 'datetime',
         'updatedAt' => 'datetime',
     ];
+
+    public function getIsPremiumAttribute(): bool
+    {
+        return $this->priceYear > 0 && $this->priceMonth == 0;
+    }
 
     public function getFormattedCreatedAt(): string
     {

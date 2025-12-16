@@ -16,6 +16,10 @@ use App\Http\Controllers\HomeController;
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\OfferController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Admin\PlanController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -84,17 +88,34 @@ Route::middleware(['token.valid', 'recruiter'])->group(function () {
 });
 
 Route::middleware(['token.valid', 'admin'])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
         Route::put('/offers/{id}', [OfferController::class, 'update'])->name('offers.update');
         Route::delete('/offers/{id}', [OfferController::class, 'delete'])->name('offers.delete');
+
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('/users/{id}', [UserController::class, 'delete'])->name('users.delete');
+
+        Route::get('/admins', [AdminController::class, 'index'])->name('admins.index');
+        Route::put('/admins/{id}', [AdminController::class, 'update'])->name('admins.update');
+        Route::delete('/admins/{id}', [AdminController::class, 'delete'])->name('admins.delete');
+
+        Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+
+        Route::get('/tags', [TagController::class, 'index'])->name('tags.index');
+        Route::put('/tags', [TagController::class, 'update'])->name('tags.update');
+        Route::delete('/tags', [TagController::class, 'delete'])->name('tags.delete');
+
+        Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
+        Route::post('/plans', [PlanController::class, 'create'])->name('plans.create');
+        Route::put('/plans', [PlanController::class, 'update'])->name('plans.update');
+        Route::delete('/plans', [PlanController::class, 'delete'])->name('plans.delete');
     });
 });
 
 
 Route::get('/job_offers/{id}', [JobOfferController::class, 'show'])->name('job_offers.show');
-Route::get('/tarifs', function () {
-    return view('account.recruiter.tarifs-recruiters');
-})->name('recruiters.tarifs');
+Route::get('/tarifs', [RecruiterController::class, 'tarifs'])->name('recruiters.tarifs');

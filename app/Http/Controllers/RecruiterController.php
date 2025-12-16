@@ -8,6 +8,7 @@ use App\Services\DiscorevApiService;
 use App\Models\Api\Recruiter;
 use App\Models\Api\JobOffer;
 use App\Helpers\NafHelper;
+use App\Models\Api\Plan;
 use App\Models\Api\RecruiterTeamMember;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Http;
@@ -343,5 +344,19 @@ class RecruiterController extends Controller
         $text = trim($text, '-');
 
         return $text;
+    }
+
+    public function tarifs()
+    {
+        $plansApi = $this->api->get('plans');
+        $plansElo = Plan::fromApiCollection($plansApi);
+
+        $plans = collect($plansElo)
+            ->filter(fn(Plan $plan) => $plan->isActive)
+            ->sortBy(
+                fn(Plan $plan) => ($plan->isPremium ? 1000 : 0) + ($plan->priceMonth ?? 0)
+            )
+            ->values();
+        return view('account.recruiter.tarifs-recruiters', compact('plans'));
     }
 }

@@ -4,31 +4,28 @@
 
 @section('content')
     <section>
-        <x-hero
-            badge="Séduire, inspirer, recruter, fidéliser"
+        <x-hero badge="Séduire, inspirer, recruter, fidéliser"
             title="<span class='gradient-text'>Un outil conçu pour faire briller<br>votre entreprise auprès du grand public</span>"
             description="Renforcez votre attractivité auprès de votre public cible et faites de votre culture un atout concurrentiel durable."
-            :showImage="true"
-            :showButtons="true"
-            buttonText="Réserver une démo"
-            variant="image-button"
-        />
+            :showImage="true" :showButtons="true" buttonText="Réserver une démo" variant="image-button" />
     </section>
 
-{{--    <x-companies.section-partners--}}
-{{--        :companies="$companies ?? []"--}}
-{{--        badge="Nos partenaires"--}}
-{{--        title="Ils nous font confiance"--}}
-{{--        buttonText="Découvrir toutes les entreprises"--}}
-{{--        buttonLink="{{ route('companies.index') }}"--}}
-{{--    />--}}
+    {{--    <x-companies.section-partners --}}
+    {{--        :companies="$companies ?? []" --}}
+    {{--        badge="Nos partenaires" --}}
+    {{--        title="Ils nous font confiance" --}}
+    {{--        buttonText="Découvrir toutes les entreprises" --}}
+    {{--        buttonLink="{{ route('companies.index') }}" --}}
+    {{--    /> --}}
 
     <section class="pricing-hero">
         <div class="container">
             <div class="text-center">
                 <div class="feature-badge">
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" class="me-2">
-                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                        <path fill-rule="evenodd"
+                            d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                            clip-rule="evenodd"></path>
                     </svg>
                     Tarification simple et transparente
                 </div>
@@ -48,84 +45,13 @@
 
     <section class="py-5">
         <div class="container">
-            <div class="row g-4 justify-content-center mb-5">
-                <div class="col-md-6 col-lg-3">
-                    <x-pricing-card
-                        title="Freemium"
-                        price="0€"
-                        :features="[
-                        '3 annonces offertes',
-                        'Profil & page auto-personnalisés',
-                        'Dépôt d\'annonces'
-                    ]"
-                        button-text="Commencer"
-                        :button-url="route('register')"
-                    />
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <x-pricing-card
-                        title="Connect 2"
-                        price="29€"
-                        period="/mois"
-                        :features="[
-                        '2 annonces / mois',
-                        'Profil & page auto-personnalisés',
-                        'Dépôt d\'annonces'
-                    ]"
-                        :button-url="route('register')"
-                    />
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <x-pricing-card
-                        title="Connect 4"
-                        price="39€"
-                        period="/mois"
-                        :features="[
-                        '4 annonces / mois',
-                        'Profil & page auto-personnalisés',
-                        'Dépôt d\'annonces'
-                    ]"
-                        :button-url="route('register')"
-                    />
-                </div>
-
-                <div class="col-md-6 col-lg-3">
-                    <x-pricing-card
-                        title="Connect +"
-                        price="79€"
-                        period="/mois"
-                        :features="[
-                        'Annonces illimitées (réactivation 30j)',
-                        'Profil & page auto-personnalisés',
-                        'Dépôt d\'annonces'
-                    ]"
-                        :button-url="route('register')"
-                        :is-highlighted="true"
-                    />
-                </div>
-            </div>
-
             <div class="row justify-content-center">
-                <div class="col-lg-8">
-                    <x-pricing-card
-                        title="Premium - Marque Employeur"
-                        price="1890€"
-                        period="/an"
-                        :features="[
-                        'Payable en 4 fois - Acompte de 472,5€',
-                        'Annonces illimitées',
-                        'Page employeur sur mesure & copywriting',
-                        'Contenu média : 3 interviews, 10 photos',
-                        'Audit de marque employeur',
-                        'Accès prioritaire aux nouvelles features - CVthèque'
-                    ]"
-                        button-text="Contacter l'équipe"
-                        :button-url="route('register')"
-                        :is-premium="true"
-                    />
-                </div>
+                @foreach ($plans as $plan)
+                    <div class="{{ $plan->isPremium ? 'col-lg-8' : 'col-md-6 col-lg-3' }}">
+                        <x-pricing-card :title="$plan->name" :price="$plan->priceMonth > 0 ? $plan->priceMonth . '€' : $plan->priceYear . '€'" :period="$plan->priceMonth > 0 ? '/mois' : '/an'" :features="$plan->features"
+                            :button-text="$plan->isPremium ? 'Contacter l\'équipe' : 'Commencer'" :button-url="route('register')" :is-premium="$plan->isPremium" />
+                    </div>
+                @endforeach
             </div>
 
             <div class="row justify-content-center mt-5">
@@ -133,10 +59,12 @@
                     <div class="contact-card text-center">
                         <h3 class="fw-bold mb-3" style="color: var(--indigo);">Des questions sur nos offres ?</h3>
                         <p class="text-muted mb-4">
-                            Notre équipe est là pour vous accompagner dans le choix de la formule la plus adaptée à vos besoins.
+                            Notre équipe est là pour vous accompagner dans le choix de la formule la plus adaptée à vos
+                            besoins.
                         </p>
                         <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-                            <a href="mailto:badiss.belhadj.discorev@gmail.com" class="btn btn-primary-gradient d-inline-flex align-items-center">
+                            <a href="mailto:badiss.belhadj.discorev@gmail.com"
+                                class="btn btn-primary-gradient d-inline-flex align-items-center">
                                 <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20" class="me-2">
                                     <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
                                     <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
@@ -183,7 +111,7 @@
         padding: 2rem;
     }
 
-    .contact-card a:hover{
+    .contact-card a:hover {
         color: var(--sand);
     }
 </style>

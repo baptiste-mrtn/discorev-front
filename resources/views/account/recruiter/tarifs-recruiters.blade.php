@@ -49,12 +49,20 @@
                 @foreach ($plans as $plan)
                     <div class="{{ $plan->isPremium ? 'col-lg-8' : 'col-md-6 col-lg-3' }}">
                         <x-pricing-card :title="$plan->name" :price="$plan->priceMonth > 0 ? $plan->priceMonth . '€' : $plan->priceYear . '€'" :period="$plan->priceMonth > 0 ? '/mois' : '/an'" :features="$plan->features"
-                            :button-text="$plan->isPremium ? 'Contacter l\'équipe' : 'Commencer'" :button-url="route('register')" :is-premium="$plan->isPremium" />
+                            {{-- 🔽 Bouton dynamique --}} :button-text="$plan->isPremium
+                                ? 'Contacter l’équipe'
+                                : ($plan->priceMonth == 0 && $plan->priceYear == 0
+                                    ? 'S\'inscrire'
+                                    : 'Choisir ce plan')" :button-url="$plan->isPremium
+                                ? '#contact'
+                                : ($plan->priceMonth == 0 && $plan->priceYear == 0
+                                    ? route('register')
+                                    : route('subscriptions.choose', ['planId' => $plan->id]))" :is-premium="$plan->isPremium" />
                     </div>
                 @endforeach
             </div>
 
-            <div class="row justify-content-center mt-5">
+            <div id="contact" class="row justify-content-center mt-5">
                 <div class="col-lg-6">
                     <div class="contact-card text-center">
                         <h3 class="fw-bold mb-3" style="color: var(--indigo);">Des questions sur nos offres ?</h3>

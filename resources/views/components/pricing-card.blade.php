@@ -8,6 +8,11 @@
     'isPremium' => false,
     'period' => null,
 ])
+@php
+    $features = collect(is_string($features) ? json_decode($features, true) : $features)
+        ->filter()
+        ->values();
+@endphp
 
 <style>
     .modern-card {
